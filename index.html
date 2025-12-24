@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meditation Consultation | Art of Living</title>
+    <style>
+        :root {
+            --primary-blue: #0445AF;
+            --bg-gradient: linear-gradient(180deg, #FFFFFF 0%, #FFE9D1 50%, #FFD1D1 100%);
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            text-align: left;
+            position: relative;
+            padding: 20px;
+        }
+
+/* Fixed Logo Size */
+        .brand-logo {
+            width: 150px;       /* Forces the logo to be small and neat */
+            max-width: 100%;    /* Prevents it from breaking on mobile */
+            height: auto;       /* Keeps the aspect ratio correct */
+            display: block;
+            margin: 0 0 20px 0; /* Adds space below the logo */
+        }
+
+        .slide {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .slide.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .question-badge {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-right: 10px;
+            display: inline-block;
+        }
+
+        h2 {
+            font-size: 26px;
+            line-height: 1.3;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            font-weight: 500;
+            display: inline;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .option-btn {
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid var(--primary-blue);
+            color: var(--primary-blue);
+            padding: 12px 20px;
+            text-align: left;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .option-btn:hover {
+            background: rgba(4, 69, 175, 0.1);
+            transform: translateX(5px);
+        }
+
+        .letter-badge {
+            border: 1px solid var(--primary-blue);
+            padding: 2px 8px;
+            border-radius: 3px;
+            margin-right: 15px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        /* Navigation Buttons */
+        .nav-controls {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .back-btn {
+            background: transparent;
+            border: none;
+            color: var(--primary-blue);
+            font-size: 16px;
+            cursor: pointer;
+            padding: 10px 0;
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+            opacity: 0.7;
+        }
+
+        .back-btn:hover { opacity: 1; }
+
+        input, select {
+            width: 100%;
+            padding: 12px 0;
+            font-size: 22px;
+            border: none;
+            border-bottom: 1px solid #ccc;
+            background: transparent;
+            margin-bottom: 30px;
+            outline: none;
+            color: var(--primary-blue);
+        }
+
+        .phone-group { display: flex; gap: 15px; }
+        .phone-group select { width: 120px; font-size: 18px; }
+
+        .submit-btn {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .progress-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            background-color: var(--primary-blue);
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        .privacy-note { font-size: 13px; color: #7f8c8d; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <img src="logo.png" alt="Art of Living" class="brand-logo" width="180" style="width: 180px !important; max-width: 180px !important; height: auto; display: block; margin: 0 auto 30px auto;">
+
+    <form id="aolSurvey">
+        
+        <div class="slide active" data-step="1">
+            <span class="question-badge">1</span>
+            <h2>What's your #1 goal with meditation right now?*</h2>
+            <div class="options">
+                <div class="option-btn" onclick="saveData('goal', 'Stress less & Feel calmer')"><span class="letter-badge">A</span> Stress less & Feel calmer</div>
+                <div class="option-btn" onclick="saveData('goal', 'Sleep better')"><span class="letter-badge">B</span> Sleep better</div>
+                <div class="option-btn" onclick="saveData('goal', 'Focus & Productivity')"><span class="letter-badge">C</span> Focus & Productivity</div>
+                <div class="option-btn" onclick="saveData('goal', 'More Energy & Joy')"><span class="letter-badge">D</span> More Energy & Joy</div>
+                <div class="option-btn" onclick="saveData('goal', 'Explore deeper meaning/purpose')"><span class="letter-badge">E</span> Explore deeper meaning/purpose</div>
+            </div>
+        </div>
+
+        <div class="slide" data-step="2">
+            <span class="question-badge">2</span>
+            <h2>How much do you want this change in your life?*</h2>
+            <div class="options">
+                <div class="option-btn" onclick="saveData('urgency', 'I need it badly')"><span class="letter-badge">A</span> I need it badly, it's affecting my life</div>
+                <div class="option-btn" onclick="saveData('urgency', 'I am ready to try')"><span class="letter-badge">B</span> It would be great, I'm ready to try</div>
+                <div class="option-btn" onclick="saveData('urgency', 'Just curious')"><span class="letter-badge">C</span> I'm just curious for now</div>
+            </div>
+            <div class="nav-controls"><button type="button" class="back-btn" onclick="goBack()">← Back</button></div>
+        </div>
+
+        <div class="slide" data-step="3">
+            <span class="question-badge">3</span>
+            <h2>What's your meditation experience?*</h2>
+            <div class="options">
+                <div class="option-btn" onclick="saveData('experience', 'Never tried')"><span class="letter-badge">A</span> I've never tried</div>
+                <div class="option-btn" onclick="saveData('experience', 'Failed with apps')"><span class="letter-badge">B</span> I've tried apps but didn't stick</div>
+                <div class="option-btn" onclick="saveData('experience', 'Occasional')"><span class="letter-badge">C</span> I practice sometimes</div>
+                <div class="option-btn" onclick="saveData('experience', 'Regular')"><span class="letter-badge">D</span> I'm regular but want to go deeper</div>
+            </div>
+            <div class="nav-controls"><button type="button" class="back-btn" onclick="goBack()">← Back</button></div>
+        </div>
+
+        <div class="slide" data-step="4">
+            <span class="question-badge">4</span>
+            <h2>What kind of support would help you most?*</h2>
+            <div class="options">
+                <div class="option-btn" onclick="saveData('support', 'Step-by-step')"><span class="letter-badge">A</span> A step-by-step start (beginner friendly)</div>
+                <div class="option-btn" onclick="saveData('support', 'Community')"><span class="letter-badge">B</span> Motivation & Community to stay consistent</div>
+                <div class="option-btn" onclick="saveData('support', 'Science-backed')"><span class="letter-badge">C</span> Science-backed guidance from experts</div>
+                <div class="option-btn" onclick="saveData('support', 'Advanced')"><span class="letter-badge">D</span> Deeper knowledge & advanced practices</div>
+            </div>
+            <div class="nav-controls"><button type="button" class="back-btn" onclick="goBack()">← Back</button></div>
+        </div>
+
+        <div class="slide" data-step="5">
+            <span class="question-badge">5</span>
+            <h2>Would you like us to guide you 1:1 on how to reduce stress - totally free?*</h2>
+            <div class="options">
+                <div class="option-btn" onclick="saveData('consultation', 'This week')"><span class="letter-badge">A</span> Yes, I want my free call this week</div>
+                <div class="option-btn" onclick="saveData('consultation', 'Next week')"><span class="letter-badge">B</span> Yes, but next week is better</div>
+                <div class="option-btn" onclick="saveData('consultation', 'No')"><span class="letter-badge">C</span> Not yet, I'll keep exploring</div>
+            </div>
+            <div class="nav-controls"><button type="button" class="back-btn" onclick="goBack()">← Back</button></div>
+        </div>
+
+        <div class="slide" data-step="6">
+            <span class="question-badge">6</span>
+            <h2>Which contact information would you like to provide for follow-up?</h2>
+            <div style="margin-top:40px;">
+                <input type="text" id="fname" placeholder="First Name" required>
+                <input type="text" id="lname" placeholder="Last Name" required>
+                <input type="email" id="email" placeholder="Email Address" required>
+                <div class="phone-group">
+                    <select id="countryCode">
+                        <option value="+1">🇺🇸 +1</option>
+                        <option value="+91">🇮🇳 +91</option>
+                        <option value="+44">🇬🇧 +44</option>
+                        <option value="+971">🇦🇪 +971</option>
+                    </select>
+                    <input type="tel" id="phone" placeholder="Phone Number" required>
+                </div>
+                <div class="nav-controls">
+                    <button type="button" class="back-btn" onclick="goBack()">← Back</button>
+                    <button type="button" class="submit-btn" onclick="finalSubmit()">Submit</button>
+                </div>
+                <p class="privacy-note">Your privacy is important to us. We will only contact you regarding your requested consultation.</p>
+            </div>
+        </div>
+
+        <div class="slide" id="thankYou">
+            <h2 style="color: var(--primary-blue);">Form Submitted Successfully</h2>
+            <p style="font-size: 18px; margin-top: 20px;">Thank you for sharing your goals. A meditation guide will reach out to you shortly.</p>
+        </div>
+    </form>
+</div>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbwC3U-KvnhENukY3tdMy2eQ4ZXn3BeuN2nw_hlA2hvstXji3pzCu3HbAp4k0Jflxg9K/exec';
+    let currentStep = 1;
+    const totalSteps = 6;
+    const collectedData = {};
+
+    function updateProgress() {
+        const progress = ((currentStep - 1) / totalSteps) * 100;
+        document.getElementById('progressBar').style.width = progress + '%';
+    }
+
+    function saveData(key, value) {
+        collectedData[key] = value;
+        moveStep(1);
+    }
+
+    function moveStep(increment) {
+        document.querySelector(`.slide[data-step="${currentStep}"]`).classList.remove('active');
+        currentStep += increment;
+        const nextSlide = document.querySelector(`.slide[data-step="${currentStep}"]`);
+        if (nextSlide) nextSlide.classList.add('active');
+        updateProgress();
+    }
+
+    function goBack() {
+        moveStep(-1);
+    }
+
+    function finalSubmit() {
+        const f = document.getElementById('fname').value.trim();
+        const l = document.getElementById('lname').value.trim();
+        const e = document.getElementById('email').value.trim();
+        const p = document.getElementById('phone').value.trim();
+        const c = document.getElementById('countryCode').value;
+
+        if(!f || !l || !e || !p) {
+            alert("Please fill in all details to continue.");
+            return;
+        }
+
+        collectedData['firstName'] = f;
+        collectedData['lastName'] = l;
+        collectedData['email'] = e;
+        collectedData['phone'] = c + " " + p;
+
+        const btn = document.querySelector('.submit-btn');
+        btn.innerText = "Processing...";
+        btn.disabled = true;
+
+        fetch(scriptURL, { 
+            method: 'POST', 
+            mode: 'no-cors', 
+            body: JSON.stringify(collectedData) 
+        })
+        .then(() => {
+            document.querySelector(`.slide[data-step="6"]`).classList.remove('active');
+            document.getElementById('thankYou').classList.add('active');
+            document.getElementById('progressBar').style.width = '100%';
+        })
+        .catch(() => {
+            alert("Error submitting. Please check your internet.");
+            btn.innerText = "Submit";
+            btn.disabled = false;
+        });
+    }
+</script>
+</body>
+
+</html>
+
+
+
+
+
